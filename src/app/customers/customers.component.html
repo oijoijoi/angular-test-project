@@ -1,0 +1,20 @@
+
+<button (click)="goToNewCustomer()">New customer</button>
+<br />
+<form [formGroup]="customersFilterFormGroup" (ngSubmit)="setFilter()">
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstNameFilter" />
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastNameFilter" />
+
+  <button type="submit" [disabled]="customersFilterFormGroup.invalid">Ok</button>
+</form>
+
+<div *ngFor="let customer of customers">
+  {{customer.title}}
+  {{customer.firstName}}
+  {{customer.firstNameMetaphone}}
+  {{customer.lastName}}
+  {{customer.lastNameMetaphone}}
+  {{customer.type.customerTypeCaption}}
+</div>
