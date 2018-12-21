@@ -33,4 +33,20 @@ export class CustomersBackendService {
     })
     .pipe(map(data => data as Customer ));
   }
+
+  getCustomersByFilter(firstName: string, lastName: string): Observable<Customer[]> {
+    return this.http.post('customers:filtered', {
+      firstName: firstName,
+      lastName: lastName
+    })
+    .pipe(map(data => data as Customer[] ));
+  }
+
+  deleteCustomer(id: number): Observable<Customer[]> {
+    return this.http.post('customers:delete', {
+      id: id
+    })
+      .pipe(map(data => data as Customer[] ));
+  }
+
 }

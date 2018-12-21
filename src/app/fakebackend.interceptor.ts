@@ -25,7 +25,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (request.url.endsWith('customers') && request.method === 'POST') {
         const type = customerTypes.find(x => x.customerTypeId === parseInt(request.body.typeId, 10));
         const customer: Customer = {
-          id: 1,
+          id: customers.length + 1,
           title: request.body.title,
           firstName: request.body.firstName,
           firstNameMetaphone: Metaphone(request.body.firstName),
@@ -38,6 +38,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         customers.unshift(customer);
 
         return of(new HttpResponse({ status: 200, body: customer }));
+      }
+
+      if (request.url.endsWith('customers:filtered') && request.method === 'POST') {
+        const filteredCustomers =
+          customers.filter(item =>
+            (item.firstNameMetaphone === Metaphone(request.body.firstName)) ||
+            (item.lastNameMetaphone === Metaphone(request.body.lastName)));
+        console.log(filteredCustomers);
+        return of(new HttpResponse({ status: 200, body: filteredCustomers }));
+      }
+
+      if (request.url.endsWith('customers:delete') && request.method === 'POST') {
+        console.log('interseptor:' + request.body.id);
+        return of(new HttpResponse({ status: 200, body: customers }));
       }
 
       return next.handle(request);
@@ -61,7 +75,7 @@ const customerTypes: CustomerType[] = [
 
 const customers: Customer[] = [
   {
-    id: 1,
+    id: 5,
     title: 'Mr',
     firstName: 'Ayrton',
     firstNameMetaphone: 'ARTN',
@@ -71,7 +85,7 @@ const customers: Customer[] = [
     type: customerTypes[0],
   },
   {
-    id: 2,
+    id: 4,
     title: 'Mr',
     firstName: 'Gerhard',
     firstNameMetaphone: 'JRHRT',
@@ -91,7 +105,7 @@ const customers: Customer[] = [
     type: customerTypes[2],
   },
   {
-    id: 4,
+    id: 2,
     title: 'Mr',
     firstName: 'Nigel',
     firstNameMetaphone: 'NJL',
@@ -101,7 +115,7 @@ const customers: Customer[] = [
     type: customerTypes[2],
   },
   {
-    id: 5,
+    id: 1,
     title: 'Mr',
     firstName: 'Riccardo',
     firstNameMetaphone: 'RKKRT',

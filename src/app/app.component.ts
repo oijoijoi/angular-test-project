@@ -12,7 +12,4 @@ export class AppComponent {
     private router: Router,
   ) { }
 
-  goToCustomersList() {
-    this.router.navigate(['customers']);
-  }
 }

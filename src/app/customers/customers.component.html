@@ -8,13 +8,16 @@
   <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastNameFilter" />
 
   <button type="submit" [disabled]="customersFilterFormGroup.invalid">Ok</button>
+  <button (click)="clearFilter()">Clear</button>
 </form>
 
 <div *ngFor="let customer of customers">
   {{customer.title}}
   {{customer.firstName}}
-  {{customer.firstNameMetaphone}}
+  <!--{{customer.firstNameMetaphone}}-->
   {{customer.lastName}}
-  {{customer.lastNameMetaphone}}
+  <!--{{customer.lastNameMetaphone}}-->
   {{customer.type.customerTypeCaption}}
+  <button (click)="setOnEdit(customer.id)">Eidt</button>
+  <button (click)="setOnDelete(customer.id)">Delete</button>
 </div>

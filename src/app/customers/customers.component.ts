@@ -40,11 +40,31 @@ export class CustomersComponent implements OnInit {
   }
 
   setFilter() {
-    console.log('setFilter function');
     if (this.firstNameFilterFormControl.value || this.lastNameFilterFormControl.value) {
-      console.log('filter');
+      this.service.getCustomersByFilter(this.firstNameFilterFormControl.value, this.lastNameFilterFormControl.value).subscribe(data => {
+        this.customers = data;
+      });
     } else {
-      console.log('no filter');
+      this.service.getCustomers().subscribe(data => {
+        this.customers = data;
+      });
     }
+  }
+
+  clearFilter() {
+    this.customersFilterFormGroup.reset();
+    this.service.getCustomers().subscribe(data => {
+      this.customers = data;
+    });
+  }
+
+  setOnEdit(id) {
+    console.log(id);
+  }
+
+  setOnDelete(id) {
+    this.service.deleteCustomer(id).subscribe(data => {
+      this.customers = data;
+    });
   }
 }
