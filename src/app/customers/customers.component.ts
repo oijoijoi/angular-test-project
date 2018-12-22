@@ -43,6 +43,10 @@ export class CustomersComponent implements OnInit {
     this.router.navigate(['customer-add']);
   }
 
+  goToMainPage() {
+    this.router.navigate(['']);
+  }
+
   setFilter() {
     if (this.firstNameFilterFormControl.value || this.lastNameFilterFormControl.value) {
       this.service.getCustomersByFilter(this.firstNameFilterFormControl.value, this.lastNameFilterFormControl.value).subscribe(data => {

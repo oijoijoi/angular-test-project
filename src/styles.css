@@ -1,2 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+
+.form-group {
+    padding: 20px;
+}
+.label-group {
+    margin-top: 10px;
+}

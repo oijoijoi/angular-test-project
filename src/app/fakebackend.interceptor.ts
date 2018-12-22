@@ -25,7 +25,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (request.url.endsWith('customers') && request.method === 'POST') {
         const type = customerTypes.find(x => x.customerTypeId === parseInt(request.body.typeId, 10));
         const customer: Customer = {
-          id: customers.length + 1,
+          id: customers[0].id + 1,
           title: request.body.title,
           firstName: request.body.firstName,
           firstNameMetaphone: Metaphone(request.body.firstName),

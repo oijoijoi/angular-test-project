@@ -1,26 +1,38 @@
 
 <button (click)="goToNewCustomer()" class="btn btn-primary">New customer</button>
+<button (click)="goToMainPage()" class="btn btn-primary">Back to main page</button>
+
 <br />
-<form [formGroup]="customersFilterFormGroup" (ngSubmit)="setFilter()">
-  <label for="firstName">First Name:</label>
-  <input type="text" id="firstName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstNameFilter" />
-  <label for="lastName">Last Name:</label>
-  <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastNameFilter" />
+<form [formGroup]="customersFilterFormGroup" (ngSubmit)="setFilter()" class="form-group">
+  <label for="firstName" class="label-group">First Name:</label>
+  <div class="input-group input-group-sm">
+    <input type="text" id="firstName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstNameFilter" class="form-control"/>
+  </div>
+  <label for="lastName" class="label-group">Last Name:</label>
+  <div class="input-group input-group-sm">
+    <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastNameFilter"  class="form-control"/>
+  </div>
 
   <button type="submit" [disabled]="customersFilterFormGroup.invalid" class="btn btn-primary">Ok</button>
   <button (click)="clearFilter()" class="btn btn-primary">Clear</button>
 </form>
 
-<div *ngFor="let customer of customers">
-  {{customer.title}}
-  {{customer.firstName}}
-  <!--{{customer.firstNameMetaphone}}-->
-  {{customer.lastName}}
-  <!--{{customer.lastNameMetaphone}}-->
-  {{customer.type.customerTypeCaption}}
-  <button class="btn btn-sm btn-outline-primary" (click)="setOnEdit(customer.id)">Eidt</button>
-  <button class="btn btn-sm btn-outline-primary" (click)="open(content, customer.id)">Delete</button>
-</div>
+<div class="list-group"></div>
+  <div *ngFor="let customer of customers" class="list-group-item">
+    <div class="customer-info-group">
+      {{customer.title}}
+      {{customer.firstName}}
+      <!--{{customer.firstNameMetaphone}}-->
+      {{customer.lastName}}
+      <!--{{customer.lastNameMetaphone}}-->
+      <br />
+      {{customer.type.customerTypeCaption}}
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-primary" (click)="setOnEdit(customer.id)">Eidt</button>
+      <button class="btn btn-sm btn-outline-primary" (click)="open(content, customer.id)">Delete</button>
+    </div>
+  </div>
 
 
 <ng-template #content let-modal>
@@ -36,4 +48,4 @@
   </div>
 </ng-template>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+<!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->

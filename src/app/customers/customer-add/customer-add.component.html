@@ -1,19 +1,19 @@
-<form [formGroup]="customerAddFormGroup" (ngSubmit)="createCustomer()" ngClass="addNew__form">
-  <label for="title">Title:</label>
-  <select id="title" formControlName="title">
+<form [formGroup]="customerAddFormGroup" (ngSubmit)="createCustomer()" ngClass="addNew__form" class="form-group">
+  <label for="title" class="label-group">Title:</label>
+  <select id="title" formControlName="title" class="form-control">
     <option value="Mr">Mr</option>
     <option value="Ms">Ms</option>
     <option value="Mrs">Mrs</option>
     <option value="Dr">Dr</option>
   </select>
-  <label for="firstName">First Name:</label>
-  <input type="text" id="firstName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstName" />
-  <label for="lastName">Last Name:</label>
-  <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastName" />
-  <label for="type">Type:</label>
-  <select id="type" formControlName="type">
+  <label for="firstName" class="label-group">First Name:</label>
+  <input type="text" id="firstName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstName" class="form-control"/>
+  <label for="lastName" class="label-group">Last Name:</label>
+  <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastName" class="form-control"/>
+  <label for="type" class="label-group">Type:</label>
+  <select id="type" formControlName="type" class="form-control">
     <option *ngFor="let customerType of customerTypes" value="{{customerType.customerTypeId}}">{{customerType.customerTypeCaption}}</option>
   </select>
 
-  <button type="submit" [disabled]="customerAddFormGroup.invalid">Ok</button>
+  <button type="submit" [disabled]="customerAddFormGroup.invalid" class="btn btn-primary">Ok</button>
 </form>
