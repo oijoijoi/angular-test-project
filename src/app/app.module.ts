@@ -10,8 +10,13 @@ import { CustomersModule } from './customers/customers.module';
 
 import { CustomersComponent } from './customers/customers.component';
 import { CustomerAddComponent } from './customers/customer-add/customer-add.component';
+import { CustomersWelcomeComponent } from './customers/customers-welcome/customers-welcome.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: CustomersWelcomeComponent,
+  },
   {
     path: 'customers',
     component: CustomersComponent,
@@ -24,14 +29,14 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(
       routes,
     ),
-  CustomersModule
+    CustomersModule,
   ],
   providers: [fakeBackendProvider],
   bootstrap: [AppComponent]

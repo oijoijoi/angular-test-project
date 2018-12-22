@@ -51,6 +51,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       if (request.url.endsWith('customers:delete') && request.method === 'POST') {
         console.log('interseptor:' + request.body.id);
+        customers.forEach((item, i) => {
+          if (item.id === request.body.id) {
+            customers.splice(i, 1);
+          }
+        });
         return of(new HttpResponse({ status: 200, body: customers }));
       }
 

@@ -1,5 +1,5 @@
 
-<button (click)="goToNewCustomer()">New customer</button>
+<button (click)="goToNewCustomer()" class="btn btn-primary">New customer</button>
 <br />
 <form [formGroup]="customersFilterFormGroup" (ngSubmit)="setFilter()">
   <label for="firstName">First Name:</label>
@@ -7,8 +7,8 @@
   <label for="lastName">Last Name:</label>
   <input type="text" id="lastName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastNameFilter" />
 
-  <button type="submit" [disabled]="customersFilterFormGroup.invalid">Ok</button>
-  <button (click)="clearFilter()">Clear</button>
+  <button type="submit" [disabled]="customersFilterFormGroup.invalid" class="btn btn-primary">Ok</button>
+  <button (click)="clearFilter()" class="btn btn-primary">Clear</button>
 </form>
 
 <div *ngFor="let customer of customers">
@@ -18,6 +18,22 @@
   {{customer.lastName}}
   <!--{{customer.lastNameMetaphone}}-->
   {{customer.type.customerTypeCaption}}
-  <button (click)="setOnEdit(customer.id)">Eidt</button>
-  <button (click)="setOnDelete(customer.id)">Delete</button>
+  <button class="btn btn-sm btn-outline-primary" (click)="setOnEdit(customer.id)">Eidt</button>
+  <button class="btn btn-sm btn-outline-primary" (click)="open(content, customer.id)">Delete</button>
 </div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm deleting</h4>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close('Cancel')">Cancel</button>
+    <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" (click)="modal.close('delete')">Delete</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>

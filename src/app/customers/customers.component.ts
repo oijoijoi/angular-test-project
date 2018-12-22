@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { CustomersBackendService } from './customers.backend.service';
 
@@ -15,10 +16,13 @@ export class CustomersComponent implements OnInit {
   customersFilterFormGroup: FormGroup;
   firstNameFilterFormControl: FormControl;
   lastNameFilterFormControl: FormControl;
+  closeResult: string;
 
   constructor(
     private router: Router,
-    private service: CustomersBackendService) { }
+    private service: CustomersBackendService,
+    private modalService: NgbModal,
+  ) { }
 
   private customers: Customer[];
 
@@ -62,9 +66,34 @@ export class CustomersComponent implements OnInit {
     console.log(id);
   }
 
-  setOnDelete(id) {
+  deleteId(id) {
     this.service.deleteCustomer(id).subscribe(data => {
       this.customers = data;
     });
+    this.clearFilter();
   }
+
+  open(content, id) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if (result === 'delete') {
+        console.log('delete' + id);
+        this.deleteId(id);
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
 }
