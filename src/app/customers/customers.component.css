@@ -1,4 +1,22 @@
 .list-group-item {
-    display: flex;
-    justify-content: space-between
+  display: flex;
+  justify-content: space-between;
+  max-width: 500px;
+  margin: -1px auto;
+}
+.form-for-edit {
+  width: 100%;
+}
+.customer-title {
+  font-weight: bold;
+}
+.customer-info-group {
+  width: 100%;
+}
+.btn-sm {
+  width: 100px;
+}
+.search-form {
+  max-width: 500px;
+  margin: auto;
 }

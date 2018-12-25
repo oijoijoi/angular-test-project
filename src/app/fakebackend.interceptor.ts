@@ -19,6 +19,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       if (request.url.endsWith('customers') && request.method === 'GET') {
+        customers.sort(function(a, b) { return b.modifiedWhen - a.modifiedWhen; });
         return of(new HttpResponse({ status: 200, body: customers }));
       }
 
@@ -31,7 +32,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           firstNameMetaphone: Metaphone(request.body.firstName),
           lastName: request.body.lastName,
           lastNameMetaphone: Metaphone(request.body.lastName),
-          modifiedWhen: '2011-10-05T14:48:00.000Z',
+          modifiedWhen: Date.now(),
           type: type,
         };
         console.log(customer);
@@ -49,8 +50,25 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(new HttpResponse({ status: 200, body: filteredCustomers }));
       }
 
+      if (request.url.endsWith('customers:edit') && request.method === 'POST') {
+        const type = customerTypes.find(x => x.customerTypeId === parseInt(request.body.typeId, 10));
+        customers.forEach((item, i) => {
+          if (item.id === request.body.id) {
+            customers[i].title = request.body.title;
+            customers[i].firstName = request.body.firstName;
+            customers[i].firstNameMetaphone = Metaphone(request.body.firstName);
+            customers[i].lastName = request.body.lastName;
+            customers[i].lastNameMetaphone = Metaphone(request.body.lastName);
+            customers[i].modifiedWhen = Date.now();
+            customers[i].type = type;
+            console.log(customers[i]);
+          }
+        });
+        customers.sort(function(a, b) { return b.modifiedWhen - a.modifiedWhen; });
+        return of(new HttpResponse({ status: 200, body: customers }));
+      }
+
       if (request.url.endsWith('customers:delete') && request.method === 'POST') {
-        console.log('interseptor:' + request.body.id);
         customers.forEach((item, i) => {
           if (item.id === request.body.id) {
             customers.splice(i, 1);
@@ -80,13 +98,83 @@ const customerTypes: CustomerType[] = [
 
 const customers: Customer[] = [
   {
+    id: 12,
+    title: 'Mr',
+    firstName: 'Nigel',
+    firstNameMetaphone: 'NJL',
+    lastName: 'Senna',
+    lastNameMetaphone: 'SN',
+    modifiedWhen: 1545764469202,
+    type: customerTypes[0],
+  },
+  {
+    id: 11,
+    title: 'Mr',
+    firstName: 'Gerhard',
+    firstNameMetaphone: 'JRHRT',
+    lastName: 'Senna',
+    lastNameMetaphone: 'SN',
+    modifiedWhen: 1545664269202,
+    type: customerTypes[0],
+  },
+  {
+    id: 10,
+    title: 'Mr',
+    firstName: 'Gerhard',
+    firstNameMetaphone: 'JRHRT',
+    lastName: 'Modena',
+    lastNameMetaphone: 'MTN',
+    modifiedWhen: 1545564269202,
+    type: customerTypes[2],
+  },
+  {
+    id: 9,
+    title: 'Mr',
+    firstName: 'Satoru',
+    firstNameMetaphone: 'STR',
+    lastName: 'Berger',
+    lastNameMetaphone: 'BRJR',
+    modifiedWhen: 1545464269202,
+    type: customerTypes[0],
+  },
+  {
+    id: 8,
+    title: 'Mr',
+    firstName: 'Ayrton',
+    firstNameMetaphone: 'ARTN',
+    lastName: 'Johansson',
+    lastNameMetaphone: 'JHNSN',
+    modifiedWhen: 1545364269202,
+    type: customerTypes[2],
+  },
+  {
+    id: 7,
+    title: 'Mr',
+    firstName: 'Stefan',
+    firstNameMetaphone: 'STFN',
+    lastName: 'Johansson',
+    lastNameMetaphone: 'JHNSN',
+    modifiedWhen: 1545264269202,
+    type: customerTypes[2],
+  },
+  {
+    id: 6,
+    title: 'Mr',
+    firstName: 'Satoru',
+    firstNameMetaphone: 'STR',
+    lastName: 'Nakajima',
+    lastNameMetaphone: 'NKJM',
+    modifiedWhen: 1545164269202,
+    type: customerTypes[0],
+  },
+  {
     id: 5,
     title: 'Mr',
     firstName: 'Ayrton',
     firstNameMetaphone: 'ARTN',
     lastName: 'Senna',
     lastNameMetaphone: 'SN',
-    modifiedWhen: '2011-10-05T14:48:00.000Z',
+    modifiedWhen: 1545064269202,
     type: customerTypes[0],
   },
   {
@@ -96,7 +184,7 @@ const customers: Customer[] = [
     firstNameMetaphone: 'JRHRT',
     lastName: 'Berger',
     lastNameMetaphone: 'BRJR',
-    modifiedWhen: '2011-10-05T14:48:00.000Z',
+    modifiedWhen: 1544964269202,
     type: customerTypes[0],
   },
   {
@@ -106,7 +194,7 @@ const customers: Customer[] = [
     firstNameMetaphone: 'STFN',
     lastName: 'Modena',
     lastNameMetaphone: 'MTN',
-    modifiedWhen: '2011-10-05T14:48:00.000Z',
+    modifiedWhen: 1544864269202,
     type: customerTypes[2],
   },
   {
@@ -116,7 +204,7 @@ const customers: Customer[] = [
     firstNameMetaphone: 'NJL',
     lastName: 'Mansell',
     lastNameMetaphone: 'MNSL',
-    modifiedWhen: '2011-10-05T14:48:00.000Z',
+    modifiedWhen: 1544764269202,
     type: customerTypes[2],
   },
   {
@@ -126,7 +214,7 @@ const customers: Customer[] = [
     firstNameMetaphone: 'RKKRT',
     lastName: 'Patrese',
     lastNameMetaphone: 'PTRS',
-    modifiedWhen: '2011-10-05T14:48:00.000Z',
+    modifiedWhen: 1544664269202,
     type: customerTypes[0],
   }
 ];

@@ -2,8 +2,16 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
 .form-group {
-    padding: 20px;
+  padding: 20px;
 }
 .label-group {
-    margin-top: 10px;
+  margin-top: 10px;
+}
+.btn {
+  margin: 5px;
+}
+.header {
+  margin: 15px auto;
+  max-width: 500px;
+  text-align: center;
 }

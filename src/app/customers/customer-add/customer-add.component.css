@@ -4,3 +4,11 @@
 .addNew__form input {
   display: block;
 }
+.addNew__form {
+  max-width: 500px;
+  margin: auto;
+}
+.addNew__form .btn {
+  margin-top: 15px;
+  width: 100%;
+}

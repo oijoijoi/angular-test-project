@@ -7,6 +7,6 @@ export interface Customer {
   firstNameMetaphone: string;
   lastName: string;
   lastNameMetaphone: string;
-  modifiedWhen: string;
+  modifiedWhen: number;
   type: CustomerType;
 }

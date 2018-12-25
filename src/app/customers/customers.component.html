@@ -1,9 +1,10 @@
-
-<button (click)="goToNewCustomer()" class="btn btn-primary">New customer</button>
-<button (click)="goToMainPage()" class="btn btn-primary">Back to main page</button>
+<div class="header">
+  <button (click)="goToNewCustomer()" class="btn btn-primary">New customer</button>
+  <button (click)="goToMainPage()" class="btn btn-primary">Back to main page</button>
+</div>
 
 <br />
-<form [formGroup]="customersFilterFormGroup" (ngSubmit)="setFilter()" class="form-group">
+<form [formGroup]="customersFilterFormGroup" (ngSubmit)="setFilter()" class="form-group search-form">
   <label for="firstName" class="label-group">First Name:</label>
   <div class="input-group input-group-sm">
     <input type="text" id="firstName" [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstNameFilter" class="form-control"/>
@@ -18,18 +19,43 @@
 </form>
 
 <div class="list-group"></div>
-  <div *ngFor="let customer of customers" class="list-group-item">
-    <div class="customer-info-group">
-      {{customer.title}}
-      {{customer.firstName}}
-      <!--{{customer.firstNameMetaphone}}-->
-      {{customer.lastName}}
-      <!--{{customer.lastNameMetaphone}}-->
-      <br />
-      {{customer.type.customerTypeCaption}}
+  <div *ngFor="let customer of customers | slice:0:10" class="list-group-item">
+    <div class="customer-info-group" *ngIf="editId === customer.id">
+      <form [formGroup]="customerEditFormGroup" (ngSubmit)="saveChanges(customer.title, customer.firstName, customer.lastName, customer.type)">
+        <select id="title" formControlName="titleEditor" class="form-control form-for-edit">
+          <option value="Mr" [selected]="customer.title === 'Mr'">Mr</option>
+          <option value="Ms" [selected]="customer.title === 'Ms'">Ms</option>
+          <option value="Mrs" [selected]="customer.title === 'Mrs'">Mrs</option>
+          <option value="Dr" [selected]="customer.title === 'Dr'">Dr</option>
+        </select>
+        <input type="text" value={{customer.firstName}} [pattern]="'^[a-zA-Z- ]+$'" formControlName="firstNameEditor"  class="form-control form-for-edit" />
+        <input type="text" value={{customer.lastName}} [pattern]="'^[a-zA-Z- ]+$'" formControlName="lastNameEditor"  class="form-control form-for-edit" />
+        <select id="type" formControlName="typeEditor" class="form-control form-for-edit">
+          <option *ngFor="let customerType of customerTypes"
+                  value="{{customerType.customerTypeId}}"
+                  [selected]="customerType.customerTypeId">
+                  <!--FUUUUUUUUUUUCK THIS!!!!!^-->
+          {{customerType.customerTypeCaption}}</option>
+        </select>
+        <button class="btn btn-sm btn-outline-primary" type="submit" [disabled]="customerEditFormGroup.invalid">Save</button>
+        <button class="btn btn-sm btn-outline-primary" (click)="setOnEdit(customer.id)">Cancel</button>
+      </form>
     </div>
-    <div>
-      <button class="btn btn-sm btn-outline-primary" (click)="setOnEdit(customer.id)">Eidt</button>
+    <div class="customer-info-group" *ngIf="editId !== customer.id">
+      <span class="customer-title">
+        {{customer.title}}
+        {{customer.firstName}}
+        {{customer.lastName}}
+      </span>
+      <br />
+      Type: {{customer.type.customerTypeCaption}}
+      <br>
+      <small>
+        Last edit: {{customer.modifiedWhen | date:'medium'}}
+      </small>
+    </div>
+    <div *ngIf="editId !== customer.id">
+      <button class="btn btn-sm btn-outline-primary" (click)="setOnEdit(customer.id)">Edit</button>
       <button class="btn btn-sm btn-outline-primary" (click)="open(content, customer.id)">Delete</button>
     </div>
   </div>
@@ -43,7 +69,7 @@
     Are you sure you want to delete?
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close('Cancel')">Cancel</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Cancel</button>
     <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" (click)="modal.close('delete')">Delete</button>
   </div>
 </ng-template>
