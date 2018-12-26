@@ -7,10 +7,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { CustomersComponent } from './customers.component';
 import { CustomerAddComponent } from './customer-add/customer-add.component';
-import { CustomerEditComponent } from './customer-edit/customer-edit.component';
 import { CustomersBackendService} from './customers.backend.service';
 import { CustomersWelcomeComponent } from './customers-welcome/customers-welcome.component';
-import { CustomerDeleteConfirmComponent } from './customer-delete-confirm/customer-delete-confirm.component';
 
 @NgModule({
   declarations: [
