@@ -16,9 +16,7 @@ import { CustomerDeleteConfirmComponent } from './customer-delete-confirm/custom
   declarations: [
     CustomersComponent,
     CustomerAddComponent,
-    CustomerEditComponent,
     CustomersWelcomeComponent,
-    CustomerDeleteConfirmComponent
   ],
   providers: [
     CustomersBackendService
@@ -30,8 +28,5 @@ import { CustomerDeleteConfirmComponent } from './customer-delete-confirm/custom
     ReactiveFormsModule,
     NgbModule,
   ],
-  entryComponents: [
-    CustomerDeleteConfirmComponent,
-  ]
 })
 export class CustomersModule { }
